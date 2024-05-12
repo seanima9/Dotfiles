@@ -1,0 +1,85 @@
+# Set Mod key to Alt (Mod1)
+set $mod Mod1
+
+# Font for window titles and bar
+font pango:monospace 8
+
+## User-executed scripts and utilities
+# Start essential services
+exec_always --no-startup-id picom --config "/home/seanimani/.config/picom/picom.conf"
+exec_always --no-startup-id bash -c "sleep 5; ~/setup_monitors.sh"
+exec_always --no-startup-id ~/wallpaper_setter.sh
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id setxkbmap gb
+
+# System utilities
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id nm-applet  # NetworkManager applet
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork  # Screen locker
+
+# Key bindings for launching and managing applications
+bindsym $mod+Return exec kitty
+bindsym $mod+d exec rofi -show drun -theme ~/.config/rofi/rofidmenu.rasi
+
+# Volume control bindings
+set $refresh_i3status killall -SIGUSR1 i3status
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+
+# Window management (focus, move, resize)
+## Change focus between windows
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
+
+## Move windows
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
+
+## Resize windows
+bindsym $mod+Ctrl+h resize shrink width 10 px or 10 ppt
+bindsym $mod+Ctrl+j resize grow height 10 px or 10 ppt
+bindsym $mod+Ctrl+k resize shrink height 10 px or 10 ppt
+bindsym $mod+Ctrl+l resize grow width 10 px or 10 ppt
+
+# Workspaces management
+## Move workspace
+bindsym $mod+Shift+Left move workspace to output left
+bindsym $mod+Shift+Right move workspace to output right
+
+## Switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+
+## Move focused window to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+
+# Refresh and restart options
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+f fullscreen toggle
+bindsym $mod+Shift+q kill
+
+# Window aesthetics
+gaps inner 7
+gaps outer 7
+for_window [class="^.*"] border pixel 0
